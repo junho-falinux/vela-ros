@@ -12,7 +12,7 @@ sudo dpkg -i /tmp/ros2-apt-source.deb
 sudo sed -i '/^Types:/c\Types: deb-src' /etc/apt/sources.list.d/ros2.sources
 sudo apt update
 
-sudo apt update && sudo apt install -y \
+sudo apt install -y \
   python3-flake8-blind-except \
   python3-flake8-class-newline \
   python3-flake8-deprecated \
@@ -24,6 +24,8 @@ sudo apt update && sudo apt install -y \
   python3-pytest-repeat \
   python3-pytest-rerunfailures \
   python3-pytest-runner \
-  python3-pytest-timeout
-
-sudo apt install -y build-essential debhelper dh-python python3-debian
+  python3-pytest-timeout \
+  build-essential \
+  debhelper \
+  dh-python \
+  python3-debian
