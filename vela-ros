@@ -8,9 +8,13 @@ import re
 import logging
 import json
 import shutil
+import requests
 
 os.environ['DEBIAN_FRONTEND'] = 'noninteractive'
 os.environ['PAGER'] = 'cat'
+
+ARCH_ALL_BASE_URL = 'http://packages.ros.org/ros2/ubuntu/'
+ARCH_ALL_PACKAGE_PATH = 'dists/noble/main/binary-amd64/Packages'
 
 class AptWithSrc:
     def __init__(self, config_file, loglevel=logging.WARNING):
@@ -18,6 +22,7 @@ class AptWithSrc:
         self.logger.setLevel(loglevel)
         self.logger.addHandler(logging.StreamHandler())
         self.build_depends = {}
+        self.arch_all_pkgs = {}
 
         with open(config_file, 'r', encoding='utf-8') as f:
             self.cfg = json.load(f)
@@ -41,6 +46,25 @@ class AptWithSrc:
 
         for package in self.cfg['prebuilt-debs'].keys():
             self.build_depends[package] = []
+
+        url = ARCH_ALL_BASE_URL + ARCH_ALL_PACKAGE_PATH
+        resp = requests.get(url)
+        if resp.status_code != 200:
+            self.logger.error(f'{url}: {resp.status_code})')
+        else:
+            for paragraph in deb822.Packages.iter_paragraphs(resp.text, use_apt_pkg=False):
+                if paragraph['Architecture'] != 'all':
+                    continue
+                url = ARCH_ALL_BASE_URL + paragraph['Filename']
+                resp = requests.get(url)
+                if resp.status_code != 200:
+                    self.logger.error(f'{url}: {resp.status_code})')
+                else:
+                    filename = os.path.basename(paragraph['Filename'])
+                    with open(filename, 'wb') as f:
+                        f.write(resp.content)
+                        package = paragraph['Package']
+                        self.arch_all_pkgs[package] = filename
 
     def is_installed(self, package):
         result = run_cmd(['dpkg', '-l', package], capture_output=True, text=True)
@@ -70,16 +94,17 @@ class AptWithSrc:
                 run_cmd(['sudo', 'apt-get', 'build-dep', '-y', package], capture_output=True, text=True, check=True)
             if 'git-repo' in self.cfg and package in self.cfg['git-repo']:
                 self.build_deb_from_git(package)
-            elif 'prebuilt-debs' in self.cfg and package in self.cfg['prebuilt-debs']:
-                self.copy_from_prebuilt(package)
             else:
                 self.build_deb_from_apt_get_source(package)
             deb_files = glob.glob(package + '_*.deb')
         if len(deb_files) != 1:
             self.logger.error('deb_files:' + ', '.join(deb_files))
             raise
+        self.install_deb(deb_files[0])
+
+    def install_deb(self, filename):
         deps = []
-        result = run_cmd(['dpkg', '-I', deb_files[0]], capture_output=True, text=True, check=True)
+        result = run_cmd(['dpkg', '-I', filename], capture_output=True, text=True, check=True)
         for l in result.stdout.splitlines():
             s = l.split(':', 1)
             if s[0].strip() == 'Depends':
@@ -87,9 +112,9 @@ class AptWithSrc:
                     deps.append(dep)
                     self.install(dep)
         try:
-            run_cmd(['sudo', 'dpkg', '-i', deb_files[0]], check=True)
+            run_cmd(['sudo', 'dpkg', '-i', filename], check=True)
         except:
-            self.logger.error(f'{deb_files[0]} Depends: ' + ', '.join(deps))
+            self.logger.error(f'{filename} Depends: ' + ', '.join(deps))
             raise
 
     def install(self, package):
@@ -98,13 +123,18 @@ class AptWithSrc:
 
         self.logger.info(f'Install {package}...')
         build_depends = self.build_depends.get(package)
-        if build_depends is None:
-            run_cmd(['sudo', 'apt-get', 'install', '-y', package], check=True)
-        else:
+        if build_depends:
             for dep in build_depends:
                 self.install(dep)
             self.build_deb_and_install(package)
+        elif 'prebuilt-debs' in self.cfg and package in self.cfg['prebuilt-debs']:
+            self.install_deb(os.path.join('prebuilt-debs', self.cfg['prebuilt-debs'][package]))
+        elif package in self.arch_all_pkgs:
+            self.install_deb(self.arch_all_pkgs[package])
+        else:
+            run_cmd(['sudo', 'apt-get', 'install', '-y', package], check=True)
 
 if __name__ == "__main__":
     apt_with_src = AptWithSrc('config.json', loglevel=logging.DEBUG)
     apt_with_src.install('ros-jazzy-ros-base')
+    apt_with_src.install('ros-dev-tools')

@@ -13,6 +13,7 @@ sudo sed -i '/^Types:/c\Types: deb-src' /etc/apt/sources.list.d/ros2.sources
 sudo apt update
 
 sudo apt install -y \
+  python3-requests \
   python3-flake8-blind-except \
   python3-flake8-class-newline \
   python3-flake8-deprecated \
