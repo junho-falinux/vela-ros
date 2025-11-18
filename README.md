@@ -13,11 +13,14 @@ Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-31-generic riscv64)
 vela@R9:~$
 ```
 -------------------------------------------------------
+User have to ckeck the commuication status in this guest env by
+```
+$sudo apt update
+```
 This confirms that the user is currently running with user privileges for the vela account.
 
 Run prepare.sh once initially to set up the system for vela-ros.
-User have to ckeck the commuication status by
-$sudo apt get update
+
 ```
 $./prepare.sh
 ```
