@@ -13,8 +13,8 @@ Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-31-generic riscv64)
 vela@R9:~$
 ```
 This confirms that the user is currently running with user privileges for the vela account.
-```
--------------------------------------------------------
+
+# Check your guest
 User have to ckeck the commuication status in this guest env by
 ```
 $sudo apt update
