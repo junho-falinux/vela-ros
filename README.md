@@ -33,4 +33,11 @@ Run vela-ros for building and installing ros2.
 ```
 $./vela-ros
 ```
+
+To install specific packages in order, pass package names directly.
+
+```
+$./vela-ros ros-jazzy-rclcpp ros-jazzy-ros-base
+```
+
 It will take long times(about more than 6 hours). Please be patient.
