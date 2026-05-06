@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 from debian import deb822
 from subprocess import run as run_cmd
 import glob
@@ -106,5 +107,14 @@ class AptWithSrc:
             self.build_deb_and_install(package)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'packages',
+        nargs='*',
+        help='Package names to install in order.',
+    )
+    args = parser.parse_args()
+
     apt_with_src = AptWithSrc('config.json', loglevel=logging.DEBUG)
-    apt_with_src.install('ros-jazzy-ros-base')
+    for package in args.packages or ['ros-jazzy-ros-base']:
+        apt_with_src.install(package)
