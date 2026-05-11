@@ -2,7 +2,8 @@
 	"sources": "/var/lib/apt/lists/packages.ros.org_ros2_ubuntu_dists_noble_main_source_Sources",
 	"git-repo": {
 		"python3-catkin-pkg-modules": "https://github.com/riscv-vela/python3-catkin-pkg-modules.git",
-		"ros-jazzy-mimick-vendor": "https://github.com/riscv-vela/ros-jazzy-mimick-vendor.git"
+		"ros-jazzy-mimick-vendor": "https://github.com/riscv-vela/ros-jazzy-mimick-vendor.git",
+		"ros-jazzy-nav2-mppi-controller": "https://github.com/riscv-vela/ros-jazzy-nav2-mppi-controller.git"
 	},
 	"prebuilt-debs": {
 		"rti-connext-dds-6.0.1": "rti-connext-dds-6.0.1_0.0.0-0_riscv64.deb"
