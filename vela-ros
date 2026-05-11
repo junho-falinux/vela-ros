@@ -68,7 +68,7 @@ class AptWithSrc:
         deb_files = glob.glob(package + '_*.deb')
         if len(deb_files) == 0:
             if self.build_depends[package]:
-                run_cmd(['sudo', 'apt-get', 'build-dep', '-y', package], capture_output=True, text=True, check=True)
+                run_cmd(['sudo', 'apt-get', '-o', 'DPkg::Lock::Timeout=600', 'build-dep', '-y', package], capture_output=True, text=True, check=True)
             if 'git-repo' in self.cfg and package in self.cfg['git-repo']:
                 self.build_deb_from_git(package)
             elif 'prebuilt-debs' in self.cfg and package in self.cfg['prebuilt-debs']:
@@ -88,7 +88,7 @@ class AptWithSrc:
                     deps.append(dep)
                     self.install(dep)
         try:
-            run_cmd(['sudo', 'dpkg', '-i', deb_files[0]], check=True)
+            run_cmd(['sudo', 'apt-get', '-o', 'DPkg::Lock::Timeout=600', 'install', '-y', './' + deb_files[0]], check=True)
         except:
             self.logger.error(f'{deb_files[0]} Depends: ' + ', '.join(deps))
             raise
@@ -100,7 +100,7 @@ class AptWithSrc:
         self.logger.info(f'Install {package}...')
         build_depends = self.build_depends.get(package)
         if build_depends is None:
-            run_cmd(['sudo', 'apt-get', 'install', '-y', package], check=True)
+            run_cmd(['sudo', 'apt-get', '-o', 'DPkg::Lock::Timeout=600', 'install', '-y', package], check=True)
         else:
             for dep in build_depends:
                 self.install(dep)
