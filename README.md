@@ -54,6 +54,7 @@ flowchart TB
 ## 3. Getting Started
 
 ### Prepare
+
 The user have to run qemu-vela ahead and log in. Then, run the script below.
 The log in script should output something like this:
 -------------------------------------------------------
