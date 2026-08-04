@@ -29,9 +29,9 @@ flowchart TB
 
     VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>Orchestrator for RISC-V64"]
 
-    DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
+    DEBS[/"Build Artifacts<br/>RISC-V64 Debian Packages<br/>ros-jazzy-*.deb · python3-*.deb"/]
 
-    ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
+    ENV(["Vela Platform<br/>with ROS 2 Jazzy on RISC-V64"])
 
     CATKIN -->|"package source"| VELA
     MIMICK -->|"package source"| VELA
