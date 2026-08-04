@@ -1,3 +1,23 @@
+
+flowchart LR
+    VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>for RISC-V64"]
+
+    subgraph SOURCES["RISC-V-adapted Package Sources"]
+        CATKIN["python3-catkin-pkg-modules<br/>ROS Package Metadata Tools"]
+        MIMICK["ros-jazzy-mimick-vendor<br/>Mocking Library Vendor Package"]
+        BACKWARD["backward_ros<br/>C++ Stack Trace Support"]
+        OGRE["ros-jazzy-gz-ogre-next-vendor<br/>Gazebo Rendering Dependency"]
+        MPPI["ros-jazzy-nav2-mppi-controller<br/>Nav2 MPPI Controller Plugin"]
+    end
+
+    CATKIN -->|"package source"| VELA
+    MIMICK -->|"package source"| VELA
+    BACKWARD -->|"package source"| VELA
+    OGRE -->|"package source"| VELA
+    MPPI -->|"package source"| VELA
+
+    VELA -->|"builds and installs DEB packages"| ENV["Vela ROS 2<br/>RISC-V64 Runtime Environment"]
+
 # Prepare
 The user have to run qemu-vela ahead and log in. Then, run the script below.
 
