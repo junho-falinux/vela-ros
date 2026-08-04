@@ -1,22 +1,27 @@
 
+## Vela ROS Build and Packaging Flow
+
+`vela-ros` builds RISC-V64-compatible Debian packages from ROS 2 Jazzy package sources and RISC-V-adapted repositories.
+
+```mermaid
 flowchart LR
-    VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>for RISC-V64"]
+    SOURCES["RISC-V-adapted<br/>ROS 2 Package Sources"]
 
-    subgraph SOURCES["RISC-V-adapted Package Sources"]
-        CATKIN["python3-catkin-pkg-modules<br/>ROS Package Metadata Tools"]
-        MIMICK["ros-jazzy-mimick-vendor<br/>Mocking Library Vendor Package"]
-        BACKWARD["backward_ros<br/>C++ Stack Trace Support"]
-        OGRE["ros-jazzy-gz-ogre-next-vendor<br/>Gazebo Rendering Dependency"]
-        MPPI["ros-jazzy-nav2-mppi-controller<br/>Nav2 MPPI Controller Plugin"]
-    end
+    VELA["vela-ros<br/>Build and Packaging Orchestrator"]
 
-    CATKIN -->|"package source"| VELA
-    MIMICK -->|"package source"| VELA
-    BACKWARD -->|"package source"| VELA
-    OGRE -->|"package source"| VELA
-    MPPI -->|"package source"| VELA
+    DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
 
-    VELA -->|"builds and installs DEB packages"| ENV["Vela ROS 2<br/>RISC-V64 Runtime Environment"]
+    ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
+
+    SOURCES -->|"source input"| VELA
+    VELA -->|"builds with dpkg-buildpackage"| DEBS
+    DEBS -->|"installs with apt"| ENV
+```
+
+- **Input:** ROS 2 Jazzy package sources and RISC-V64-adapted repositories
+- **Build system:** `vela-ros`
+- **Build artifacts:** RISC-V64 Debian package files (`.deb`)
+- **Operational result:** An installed ROS 2 Jazzy environment for RISC-V64
 
 # Prepare
 The user have to run qemu-vela ahead and log in. Then, run the script below.
