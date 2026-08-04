@@ -27,9 +27,14 @@ flowchart LR
 
 The following repositories provide RISC-V-adapted package sources that are consumed and built by `vela-ros`.
 
+## Relationship Between `vela-ros` and RISC-V-adapted ROS Packages
+
+The following repositories provide RISC-V-adapted package sources that are consumed and built by `vela-ros`.
+
 ```mermaid
 flowchart LR
     subgraph SOURCES["RISC-V-adapted ROS 2 Package Sources"]
+        direction TB
         CATKIN["python3-catkin-pkg-modules<br/>ROS package metadata tools"]
         MIMICK["ros-jazzy-mimick-vendor<br/>Mocking library vendor package"]
         BACKWARD["backward_ros<br/>C++ stack trace support"]
@@ -39,9 +44,13 @@ flowchart LR
 
     VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>Orchestrator for RISC-V64"]
 
-    DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
+    subgraph OUTPUT["Build Output and Runtime Environment"]
+        direction TB
+        DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
+        ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
 
-    ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
+        DEBS -->|"installs with apt"| ENV
+    end
 
     CATKIN -->|"package source"| VELA
     MIMICK -->|"package source"| VELA
@@ -50,7 +59,6 @@ flowchart LR
     MPPI -->|"package source"| VELA
 
     VELA -->|"builds with dpkg-buildpackage"| DEBS
-    DEBS -->|"installs with apt"| ENV
 ```
 
 
