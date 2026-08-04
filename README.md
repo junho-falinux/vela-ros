@@ -13,7 +13,7 @@
 The following repositories provide RISC-V-adapted package sources that are consumed and built by `vela-ros`.
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph SOURCES["RISC-V-adapted ROS 2 Package Sources"]
         CATKIN["python3-catkin-pkg-modules<br/>ROS package metadata tools"]
         MIMICK["ros-jazzy-mimick-vendor<br/>Mocking library vendor package"]
