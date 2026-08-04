@@ -54,9 +54,9 @@ flowchart TB
 ## 3. Getting Started
 
 ### Prepare
-
 The user have to run qemu-vela ahead and log in. Then, run the script below.
 The log in script should output something like this:
+
 -------------------------------------------------------
 R9 login: vela
 Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-31-generic riscv64)
