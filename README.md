@@ -1,5 +1,5 @@
 
-## Vela ROS Build and Packaging Flow
+## 1. Vela ROS Build and Packaging Flow
 
 `vela-ros` builds RISC-V64-compatible Debian packages from ROS 2 Jazzy package sources and RISC-V-adapted repositories.
 
@@ -8,7 +8,7 @@
 - **Build artifacts:** RISC-V64 Debian package files (`.deb`)
 - **Operational result:** An installed ROS 2 Jazzy environment for RISC-V64
 
-## Relationship Between `vela-ros` and RISC-V-adapted ROS Packages
+## 2. Relationship Between `vela-ros` and RISC-V-adapted ROS Packages
 
 The following repositories provide RISC-V-adapted package sources that are consumed and built by `vela-ros`.
 
@@ -51,8 +51,9 @@ flowchart TB
 - The direct build outputs are RISC-V64 Debian package files.
 - Installing the generated packages creates the Vela ROS 2 Jazzy runtime environment.
 
+## 3. Getting Started
 
-# Prepare
+### Prepare
 The user have to run qemu-vela ahead and log in. Then, run the script below.
 
 The log in script should output something like this:
@@ -68,7 +69,7 @@ vela@R9:~$
 ```
 This confirms that the user is currently running with user privileges for the vela account.
 
-# Check your guest
+### Check your guest
 User have to check the commuication status in this guest env by
 ```
 $sudo apt update
@@ -80,7 +81,7 @@ Run prepare.sh once initially to set up the system for vela-ros.
 $./prepare.sh
 ```
 
-# Build and install ROS2
+### Build and install ROS2
 
 Run vela-ros for building and installing ros2.
 
