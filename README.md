@@ -32,6 +32,7 @@ flowchart TB
     DEBS[/"Build Artifacts<br/>RISC-V64 Debian Packages<br/>ros-jazzy-*.deb · python3-*.deb"/]
 
     ENV(["Vela Platform<br/>with ROS 2 Jazzy on RISC-V64"])
+    click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
 
     CATKIN -->|"package source"| VELA
     MIMICK -->|"package source"| VELA
