@@ -3,21 +3,6 @@
 
 `vela-ros` builds RISC-V64-compatible Debian packages from ROS 2 Jazzy package sources and RISC-V-adapted repositories.
 
-```mermaid
-flowchart LR
-    SOURCES["RISC-V-adapted<br/>ROS 2 Package Sources"]
-
-    VELA["vela-ros<br/>Build and Packaging Orchestrator"]
-
-    DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
-
-    ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
-
-    SOURCES -->|"source input"| VELA
-    VELA -->|"builds with dpkg-buildpackage"| DEBS
-    DEBS -->|"installs with apt"| ENV
-```
-
 - **Input:** ROS 2 Jazzy package sources and RISC-V64-adapted repositories
 - **Build system:** `vela-ros`
 - **Build artifacts:** RISC-V64 Debian package files (`.deb`)
@@ -27,14 +12,9 @@ flowchart LR
 
 The following repositories provide RISC-V-adapted package sources that are consumed and built by `vela-ros`.
 
-## Relationship Between `vela-ros` and RISC-V-adapted ROS Packages
-
-The following repositories provide RISC-V-adapted package sources that are consumed and built by `vela-ros`.
-
 ```mermaid
 flowchart LR
     subgraph SOURCES["RISC-V-adapted ROS 2 Package Sources"]
-        direction TB
         CATKIN["python3-catkin-pkg-modules<br/>ROS package metadata tools"]
         MIMICK["ros-jazzy-mimick-vendor<br/>Mocking library vendor package"]
         BACKWARD["backward_ros<br/>C++ stack trace support"]
@@ -44,13 +24,9 @@ flowchart LR
 
     VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>Orchestrator for RISC-V64"]
 
-    subgraph OUTPUT["Build Output and Runtime Environment"]
-        direction TB
-        DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
-        ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
+    DEBS["RISC-V64 Debian Packages<br/>ros-jazzy-*.deb<br/>python3-*.deb"]
 
-        DEBS -->|"installs with apt"| ENV
-    end
+    ENV["Installed ROS 2 Jazzy<br/>RISC-V64 Environment"]
 
     CATKIN -->|"package source"| VELA
     MIMICK -->|"package source"| VELA
@@ -59,7 +35,16 @@ flowchart LR
     MPPI -->|"package source"| VELA
 
     VELA -->|"builds with dpkg-buildpackage"| DEBS
+    DEBS -->|"installs with apt"| ENV
 ```
+
+### Relationship
+
+- The five repositories are not Git submodules of `vela-ros`.
+- They provide customized or RISC-V64-adapted package sources.
+- `vela-ros` clones and builds these sources when required.
+- The direct build outputs are RISC-V64 Debian package files.
+- Installing the generated packages creates the Vela ROS 2 Jazzy runtime environment.
 
 
 # Prepare
