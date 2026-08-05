@@ -18,10 +18,10 @@ flowchart TB
     DEBS -->|"installs with apt"| ENV
 ```
 
-## 3. Getting Started
+## 2. Getting Started
 
 ### Prepare
-The user have to run qemu-vela ahead and log in. Then, run the script below.
+The user have to run [`q-vela`](https://github.com/riscv-vela/q-vela) ahead and log in. Then, run the script below.
 The log in script should output something like this:
 
 -------------------------------------------------------
