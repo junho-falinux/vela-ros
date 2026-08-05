@@ -18,7 +18,6 @@ flowchart TB
     ENV(["Vela Platform<br/>with ROS 2 Jazzy on RISC-V64"])
     click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
 
-    VELA -->|"builds with dpkg-buildpackage"| DEBS
     DEBS -->|"installs with apt"| ENV
 ```
 
