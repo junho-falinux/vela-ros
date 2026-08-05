@@ -12,7 +12,7 @@ risc-vela team built RISC-V64-compatible Debian packages from ROS 2 Jazzy packag
 flowchart TB
     DEBS[/"Build Artifacts<br/>RISC-V64 Debian Packages<br/>ros-jazzy-*.deb · python3-*.deb"/]
 
-    ENV(["Vela Platform<br/>with ROS 2 Jazzy on RISC-V64"])
+    ENV(["Q-Vela Platform<br/>"])
     click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
 
     DEBS -->|"installs with apt"| ENV
