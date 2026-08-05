@@ -1,15 +1,12 @@
 
-## 1. Vela ROS Build and Packaging Flow
+## 1. Vela-ROS Install Prebuilt ROS2 Devian Packages to Q-Vela Emulation Environment.
 
-`vela-ros` builds RISC-V64-compatible Debian packages from ROS 2 Jazzy package sources and RISC-V-adapted repositories.
+risc-vela team built RISC-V64-compatible Debian packages from ROS 2 Jazzy package sources and RISC-V-adapted repositories.
 
 - **Input:** ROS 2 Jazzy package sources and RISC-V64-adapted repositories
 - **Build system:** `vela-ros`
 - **Build artifacts:** RISC-V64 Debian package files (`.deb`)
 - **Operational result:** An installed ROS 2 Jazzy environment for RISC-V64
-
-## 2. Install `vela-ros` from prebuilt ROS Devian Packages
-
 
 ```mermaid
 flowchart TB
