@@ -12,7 +12,7 @@ risc-vela team built RISC-V64-compatible Debian packages from ROS 2 Jazzy packag
 flowchart TB
     DEBS[/"Pre-built Debian<br/> Packages for RISC-V64<br/>ros-jazzy-*.deb"/]
 
-    ENV(["RISC-V Platform(Q-Vela, HiFive P450/P550 board<br/>"])
+    ENV(["RISC-V Platform<br/>(Q-Vela, HiFive P450/P550 board)"])
     click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
 
     DEBS -->|"installed"| ENV
