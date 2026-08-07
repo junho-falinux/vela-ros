@@ -1,64 +1,73 @@
+# Vela-ROS
 
-## 1. Vela-ROS 
+`vela-ros` builds ROS 2 Jazzy source packages and RISC-V-adapted package
+sources as Debian packages for Ubuntu 24.04 (Noble) on riscv64. The packages
+built with this tool are published in the Vela APT repository.
 
-risc-vela team built riscv64-compatible Debian packages from ROS 2 Jazzy package sources and riscv64-adapted repositories. You can install Prebuilt ROS2 Debian Packages to Q-Vela Emulation Environment.
+You can either:
 
-- **Input:** ROS 2 Jazzy package sources and riscv64-adapted repositories
-- **Build system:** `vela-ros`
-- **Build artifacts:** riscv64 Debian package files (`.deb`)
-- **Operational result:** An installed ROS 2 Jazzy environment for riscv64
+- install the published packages directly with APT, or
+- run `vela-ros` to build and install the packages locally from source.
 
 ```mermaid
 flowchart TB
-    DEBS[/"Pre-built Debian<br/> Packages for riscv64<br/> *.deb"/]
-    click DEBS href "https://github.com/riscv-vela/vela-ros/blob/noble/built-packages.md" "prebuilt packages"
-    ENV(["Vela"])
-    click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
+    SOURCES["ROS 2 Jazzy and<br/>RISC-V-adapted sources"]
+    TOOL["vela-ros"]
+    DEBS["riscv64 Debian packages"]
+    REPO["Vela APT repository"]
+    ENV["Vela with ROS 2 Jazzy"]
 
-    DEBS -->|"installed"| ENV
+    SOURCES --> TOOL --> DEBS
+    DEBS --> REPO -->|"apt install"| ENV
+    DEBS -->|"local installation"| ENV
 ```
 
-## 2. Getting Started
+See [the build flow](build-flow.md) for the source repositories handled by
+`vela-ros`, and [the built package list](built-packages.md) for the packages
+currently published in the APT repository.
 
-### Prepare
-The user have to boot Vela on the [`q-vela`](https://github.com/riscv-vela/q-vela) ahead and log in. Then, run the script below.
-The log in script should output something like this:
+## Install published packages with APT
 
-```
-q-vela login: vela
-Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-31-generic riscv64)
+On the target Ubuntu machine, add the Vela APT repository and update the
+package index:
 
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/pro
-vela@q-vela:~$
-```
-This confirms that the user is currently running with user privileges for the vela account.
-
-### Update package information
-User have to update package information from all coufigured sources by
-```
-$sudo apt update
+```bash
+echo 'deb [trusted=yes] http://vela.falinux.com/ubuntu noble main' | \
+  sudo tee /etc/apt/sources.list.d/vela.list
+sudo apt update
 ```
 
-Run prepare.sh once initially to set up the system for vela-ros.
+Then install ROS packages normally. APT downloads the packages already built
+with `vela-ros` and resolves their dependencies:
 
-```
-$./prepare.sh
-```
-
-### Build and install ROS2
-
-Run vela-ros for building and installing ros2.
-
-```
-$./vela-ros
+```bash
+sudo apt install ros-jazzy-ros-base
 ```
 
-To install specific packages in order, pass package names directly.
+## Build and install locally with vela-ros
 
-```
-$./vela-ros ros-jazzy-rclcpp ros-jazzy-ros-base
+Use this method to reproduce the build manually on a riscv64 Ubuntu Noble
+machine, such as a Vela system booted with
+[`q-vela`](https://github.com/riscv-vela/q-vela).
+
+Clone this repository on the target and prepare the build environment:
+
+```bash
+git clone -b noble https://github.com/riscv-vela/vela-ros.git
+cd vela-ros
+./prepare.sh
 ```
 
-It will take long times(about more than 6 hours). Please be patient.
+Build and install `ros-jazzy-ros-base` and its required packages:
+
+```bash
+./vela-ros
+```
+
+To build and install specific packages in order, pass their names directly:
+
+```bash
+./vela-ros ros-jazzy-rclcpp ros-jazzy-ros-base
+```
+
+A full source build can take more than six hours in the emulated environment.
