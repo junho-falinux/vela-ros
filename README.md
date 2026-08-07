@@ -11,8 +11,8 @@ risc-vela team built riscv64-compatible Debian packages from ROS 2 Jazzy package
 ```mermaid
 flowchart TB
     DEBS[/"Pre-built Debian<br/> Packages for riscv64<br/> *.deb"/]
-
-    ENV(["RISC-V Platform<br/>(Q-Vela, HiFive P450/P550 board)"])
+    click DEBS href "https://github.com/riscv-vela/vela-ros/blob/noble/built-packages.md" "prebuilt packages"
+    ENV(["Vela"])
     click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
 
     DEBS -->|"installed"| ENV
