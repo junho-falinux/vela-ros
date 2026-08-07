@@ -21,11 +21,11 @@ flowchart TB
 		RTI_CONNEXT_DDS["rti-connext-dds"]
 	end
 
-    VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>Orchestrator for RISC-V64"]
+    VELA["vela-ros<br/>ROS 2 Jazzy Build and Packaging<br/>Orchestrator for riscv64"]
 
-    DEBS[/"Build Artifacts<br/>RISC-V64 Debian Packages<br/>ros-jazzy-*.deb · python3-*.deb"/]
+    DEBS[/"Build Artifacts<br/>riscv64 Debian Packages<br/>ros-jazzy-*.deb · python3-*.deb"/]
 
-    ENV(["Vela Platform<br/>with ROS 2 Jazzy on RISC-V64"])
+    ENV(["Vela Platform<br/>with ROS 2 Jazzy on riscv64"])
     click ENV href "https://github.com/riscv-vela/vela" "Vela repository"
 
     CATKIN -->|"package source"| VELA
@@ -43,7 +43,7 @@ flowchart TB
 ### Relationship
 
 - The five repositories are not Git submodules of `vela-ros`.
-- They provide customized or RISC-V64-adapted package sources.
+- They provide customized or riscv64-adapted package sources.
 - `vela-ros` clones and builds these sources when required.
-- The direct build outputs are RISC-V64 Debian package files.
+- The direct build outputs are riscv64 Debian package files.
 - Installing the generated packages creates the Vela ROS 2 Jazzy runtime environment.
